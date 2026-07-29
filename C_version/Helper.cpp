@@ -20,8 +20,6 @@ string get_java_pid(){
 
     string text;
 
-    ofstream MyFile("filename.txt");
-
     ifstream file_to_read("java_pid.txt");
 
     while(getline (file_to_read, text)){
@@ -36,8 +34,21 @@ string get_java_pid(){
     
 }
 
+void start_java(){
 
-void check_if_javas_running(string input_pid){
+    string powershell = "Powershell.exe ";
+    string command = "start ";
+    string filepath = "Annoying_popup_program/popup_program/popup.exe";
+
+    string full_command = powershell + command + filepath;
+
+    char *cstr_command = full_command.data();
+
+    int return_code = system(cstr_command);
+
+}
+
+void check_if_java_is_running(string input_pid){
 
     string pid = input_pid;
     string command = "powershell.exe Get-Process -id ";
@@ -49,9 +60,12 @@ void check_if_javas_running(string input_pid){
 
     if(return_code == 0){
         cout << "Java is running" << endl;
+
     }
     else {
-        cout << "Java is not running" << return_code << endl;
+        cout << "Java is not running: " << return_code << endl;
+        
+        start_java();
     }
 
 }
@@ -62,8 +76,8 @@ int main(int argc, char const *argv[])
 
     write_pid();
     
-    check_if_javas_running( get_java_pid() );
-    
+    check_if_java_is_running( get_java_pid() );
+
     return 0;
 }
 

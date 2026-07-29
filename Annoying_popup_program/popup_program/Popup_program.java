@@ -28,7 +28,7 @@ public class Popup_program{
 
             JLabel label = new JLabel("Hej ;)");
 
-            ImageIcon image = new ImageIcon("Annoying_popup_program\\popup_program\\Full_metal.jpg");
+            // ImageIcon image = new ImageIcon("Annoying_popup_program\\popup_program\\Full_metal.jpg");
 
             popup.setTitle("Popup");
             popup.setAlwaysOnTop(true);
@@ -77,7 +77,6 @@ public class Popup_program{
                         
                         create_popup();
                     }
-
                 }
 
                 @Override
@@ -95,8 +94,7 @@ public class Popup_program{
                 @Override
                 public void windowDeactivated(WindowEvent e) {
 
-                    System.out.println("Deactivated");
-                    
+                    System.out.println("Deactivated");   
                 }
             
             });
@@ -128,7 +126,9 @@ public class Popup_program{
 
         try{
 
-            FileWriter wrighter = new FileWriter("C_version/java_pid.txt");
+            String dir = System.getProperty("user.dir");
+
+            FileWriter wrighter = new FileWriter(dir + "/C_version/java_pid.txt"); 
 
             System.out.println(pid);
             wrighter.write(String.valueOf(pid));
@@ -144,7 +144,8 @@ public class Popup_program{
 
         System.out.println("Serching for c++");
     
-        File cpp_file = new File("C_version\\cpp_pid.txt");
+        String dir = System.getProperty("user.dir");
+        File cpp_file = new File(dir + "/C_version/cpp_pid.txt");
 
         try(Scanner scanner = new Scanner(cpp_file)){
 
@@ -160,14 +161,23 @@ public class Popup_program{
             Process get_process = Runtime.getRuntime().exec("Powershell.exe Get-Process -id " + pid);
 
             BufferedReader terminal_out = new BufferedReader(new InputStreamReader(get_process.getInputStream()));
+            BufferedReader terminal_out_err = new BufferedReader(new InputStreamReader(get_process.getErrorStream()));
 
             String temp = terminal_out.readLine();
-
-                while (temp != null) {
-
-                    System.out.println(temp);
+            String err_temp = terminal_out_err.readLine();
             
-                    temp = terminal_out.readLine();
+            while (temp != null) {
+
+                System.out.println(temp);
+        
+                temp = terminal_out.readLine();
+            }
+
+            while (err_temp != null) {
+
+                System.out.println("ERROR: " + err_temp);
+        
+                err_temp = terminal_out.readLine();
             }
 
         }catch(IOException e){

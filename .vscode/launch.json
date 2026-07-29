@@ -6,6 +6,13 @@
             "name": "Popup_program",
             "request": "launch",
             "mainClass": "popup_program.Popup_program",
+            "projectName": "Annoying_poppup_program_fixed_2025a85d"
+        },
+        {
+            "type": "java",
+            "name": "Popup_program",
+            "request": "launch",
+            "mainClass": "popup_program.Popup_program",
             "projectName": "Annoying_popup_program_fix_4628a41"
         },
         {
