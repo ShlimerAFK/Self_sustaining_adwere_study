@@ -1,6 +1,7 @@
 {
     "java.project.sourcePaths": [
+        "C_version",
         "Annoying_popup_program",
-        "C_version"
+        ""
     ]
 }

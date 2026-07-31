@@ -1,6 +1,8 @@
 #include <iostream>
 #include <cstdlib>
 #include <fstream>
+#include <chrono>
+#include <thread>
 
 using namespace std;
 
@@ -38,7 +40,7 @@ void start_java(){
 
     string powershell = "Powershell.exe ";
     string command = "start ";
-    string filepath = "Annoying_popup_program/popup_program/popup.exe";
+    string filepath = "popup.exe";
 
     string full_command = powershell + command + filepath;
 
@@ -70,14 +72,31 @@ void check_if_java_is_running(string input_pid){
 
 }
 
+void wait(int seconds){
+
+    cout << "Timer started";
+
+    this_thread::sleep_for(chrono::seconds(seconds));
+
+    cout << "Timer ended";
+
+}
+
 int main(int argc, char const *argv[])
 {
     cout << "Starting..." << endl;
 
     write_pid();
     
-    check_if_java_is_running( get_java_pid() );
+    while (true)
+    {
+        check_if_java_is_running( get_java_pid() );
 
+        wait(10);
+
+    }
+    
+    
     return 0;
 }
 

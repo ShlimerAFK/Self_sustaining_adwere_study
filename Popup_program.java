@@ -1,10 +1,9 @@
-package popup_program;
 
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -128,7 +127,7 @@ public class Popup_program{
 
             String dir = System.getProperty("user.dir");
 
-            FileWriter wrighter = new FileWriter(dir + "/C_version/java_pid.txt"); 
+            FileWriter wrighter = new FileWriter(dir + "/java_pid.txt"); 
 
             System.out.println(pid);
             wrighter.write(String.valueOf(pid));
@@ -145,7 +144,7 @@ public class Popup_program{
         System.out.println("Serching for c++");
     
         String dir = System.getProperty("user.dir");
-        File cpp_file = new File(dir + "/C_version/cpp_pid.txt");
+        File cpp_file = new File(dir + "/cpp_pid.txt");
 
         try(Scanner scanner = new Scanner(cpp_file)){
 
