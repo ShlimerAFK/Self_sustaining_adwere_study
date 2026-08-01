@@ -8,6 +8,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Scanner;
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -101,7 +105,7 @@ public class Popup_program{
         }catch(Exception error){
             System.out.println(error);
         } 
-        
+
     }
 
     static int get_random_number(){
@@ -121,7 +125,6 @@ public class Popup_program{
     }
 
     static void wright_to_file(long pid){
-
 
         try{
 
@@ -164,7 +167,18 @@ public class Popup_program{
 
             String temp = terminal_out.readLine();
             String err_temp = terminal_out_err.readLine();
+
+            boolean cpp_is_running = false;
             
+            if(temp != null){
+
+                cpp_is_running = true;
+
+            } else if(err_temp != null){
+
+                cpp_is_running = false;
+            }
+
             while (temp != null) {
 
                 System.out.println(temp);
@@ -179,20 +193,56 @@ public class Popup_program{
                 err_temp = terminal_out.readLine();
             }
 
+            if (cpp_is_running == false) {
+                start_cpp();
+            }
+
         }catch(IOException e){
 
                 System.out.println(e);
+        }
+    }
+
+    static void start_cpp() throws IOException{
+
+        Process get_process = Runtime.getRuntime().exec("Powershell.exe start Helper.exe");
+
+            BufferedReader terminal_out = new BufferedReader(new InputStreamReader(get_process.getInputStream()));
+            BufferedReader terminal_out_err = new BufferedReader(new InputStreamReader(get_process.getErrorStream()));
+
+            String temp = terminal_out.readLine();
+            String err_temp = terminal_out_err.readLine();
+
+            while (temp != null) {
+
+                System.out.println(temp);
+        
+                temp = terminal_out.readLine();
+            }
+
+            while (err_temp != null) {
+
+                System.out.println("ERROR: " + err_temp);
+        
+                err_temp = terminal_out.readLine();
             }
     }
+
 
     public static void main(String[] args) {
 
         wright_to_file(get_process_id());
 
-        check_if_cpp_running();
-
         create_popup(); 
-    }
 
+        final ScheduledExecutorService executorService = Executors.newSingleThreadScheduledExecutor();
+        executorService.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+
+                check_if_cpp_running();
+            }
+        }, 0, 10, TimeUnit.SECONDS);
+    }
 
 }

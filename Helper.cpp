@@ -15,7 +15,6 @@ void write_pid(){
     pid_file << pid;
 
     pid_file.close();
-
 }
 
 string get_java_pid(){
@@ -33,7 +32,6 @@ string get_java_pid(){
     file_to_read.close();
 
     return text;
-    
 }
 
 void start_java(){
@@ -47,7 +45,6 @@ void start_java(){
     char *cstr_command = full_command.data();
 
     int return_code = system(cstr_command);
-
 }
 
 void check_if_java_is_running(string input_pid){
@@ -79,7 +76,6 @@ void wait(int seconds){
     this_thread::sleep_for(chrono::seconds(seconds));
 
     cout << "Timer ended";
-
 }
 
 int main(int argc, char const *argv[])
@@ -95,7 +91,6 @@ int main(int argc, char const *argv[])
         wait(10);
 
     }
-    
     
     return 0;
 }
